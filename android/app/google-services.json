@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "77606591973",
+    "project_id": "fritofacilproject",
+    "storage_bucket": "fritofacilproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77606591973:android:a1a19d7aa4ce3e89b2630c",
+        "android_client_info": {
+          "package_name": "fritofacil.andriod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJpheybYLSug6vJC5BleOns-IkO9-Gc0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
