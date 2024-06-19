@@ -48,8 +48,8 @@ class ControlUserAuth extends GetxController {
       await controlUser(_response.value);
       if (_user.value != null) {
         // Iniciar sesión automáticamente después de registrarse
-        await _assignUserRole(
-            'cliente'); // Asignar rol de administrador para prueba
+        await _assignUserRoleandRegisterUser(
+            'cliente', email); // Asignar rol de administrador para prueba
         await Future.delayed(Duration(
             seconds: 1)); // Esperar a que el rol se actualice en Firestore
         await loginUser(email, password);
@@ -68,13 +68,18 @@ class ControlUserAuth extends GetxController {
     print('Completed controlUser');
   }
 
-  Future<void> _assignUserRole(String role) async {
+  Future<void> _assignUserRoleandRegisterUser(String role, String email) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'email': email,
         'role': role,
       });
     }
+  }
+
+  static String? getUserEmail() {
+    return FirebaseAuth.instance.currentUser?.email;
   }
 
   Future<void> _fetchUserRole() async {

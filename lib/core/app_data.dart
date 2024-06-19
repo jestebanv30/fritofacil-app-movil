@@ -1,164 +1,186 @@
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, unnecessary_null_in_if_null_operators
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fritofacil/src/model/bottom_nav_bar_item.dart';
-import 'package:fritofacil/src/model/categorical.dart';
-import 'package:fritofacil/src/model/numerical.dart';
 import 'package:fritofacil/src/model/product.dart';
 import 'package:fritofacil/src/model/product_category.dart';
-import 'package:fritofacil/src/model/product_size_type.dart';
 import 'package:fritofacil/src/model/recommended_product.dart';
 
 class AppData {
   const AppData._();
 
-  static const String dummyText =
-      'Lorem Ipsum is simply dummy text of the printing and typesetting'
-      ' industry. Lorem Ipsum has been the industry\'s standard dummy text'
-      ' ever since the 1500s, when an unknown printer took a galley of type'
-      ' and scrambled it to make a type specimen book.';
+  static Future<List<Product>> loadProductsFromFirebase() async {
+    List<Product> products = [];
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('products').get();
+      querySnapshot.docs.forEach((doc) {
+        var data = doc.data() as Map<String, dynamic>;
+        Product product = Product(
+          name: data['name'] ?? '',
+          price: data['price'] ?? 0,
+          about: data['about'] ?? '',
+          isAvailable: data['isAvailable'] ?? false,
+          off: data['off'] ?? null,
+          quantity: data['quantity'] ?? 0,
+          imageUrl: (data['imageUrl'] ?? []),
+          isFavorite: data['isFavorite'] ?? false,
+          rating: data['rating'] ?? 0,
+          type: FoodType.all,
+          //type: FoodTypeHelper.fromString(data['type'] ?? ''),
+        );
+        products.add(product);
+      });
+    } catch (e) {
+      print('Error loading products: $e');
+    }
+    return products;
+  }
 
-  static List<Product> products = [
-    Product(
-      name: 'Empanadas',
-      price: 460,
-      isAvailable: true,
-      off: 300,
-      quantity: 0,
-      images: [
-        'assets/images/empanadasdecarne.jpg',
-        'assets/images/empanadasdecarne2.jpg',
-        'assets/images/empanadasdecarne3.jpg',
-      ],
-      isFavorite: true,
-      rating: 1,
-      type: FoodType.all,
-    ),
-    Product(
-      name: 'Bueñuelos',
-      price: 380,
-      isAvailable: false,
-      off: 220,
-      quantity: 0,
-      images: [
-        'assets/images/buñuelos2.jpg',
-        'assets/images/buñuelos.png',
-      ],
-      isFavorite: false,
-      rating: 4,
-      type: FoodType.dessert,
-    ),
-    Product(
-      name: 'Hayaca',
-      price: 650,
-      isAvailable: true,
-      off: null,
-      quantity: 0,
-      images: [
-        'assets/images/hayaca.jpg',
-        'assets/images/hayaca2.jpeg',
-      ],
-      isFavorite: false,
-      rating: 3,
-      type: FoodType.salad,
-    ),
-    Product(
-      name: 'Arroz calle',
-      price: 229,
-      isAvailable: true,
-      off: 200,
-      quantity: 0,
-      images: [
-        'assets/images/arrozcalle.jpg',
-      ],
-      isFavorite: false,
-      rating: 5,
-      sizes: ProductSizeType(
-        categorical: [
-          Categorical(CategoricalType.small, true),
-          Categorical(CategoricalType.medium, false),
-          Categorical(CategoricalType.large, false),
-        ],
-      ),
-      type: FoodType.salad,
-    ),
-    Product(
-      name: 'Perro pro',
-      price: 330,
-      isAvailable: true,
-      off: null,
-      quantity: 0,
-      images: [
-        'assets/images/perropro.jpg',
-        'assets/images/perropro2.jpg',
-      ],
-      isFavorite: false,
-      rating: 4,
-      sizes: ProductSizeType(
-        numerical: [
-          Numerical('x2', true),
-          Numerical('x4', false),
-        ],
-      ),
-      type: FoodType.burger,
-    ),
-    Product(
-      name: 'Salchipapa',
-      price: 230,
-      isAvailable: true,
-      off: null,
-      quantity: 0,
-      images: [
-        'assets/images/salchipapa.jpg',
-        'assets/images/salchipapa2.jpeg',
-      ],
-      isFavorite: false,
-      rating: 2,
-      type: FoodType.all,
-    ),
-    Product(
-      name: 'Deditos de queso',
-      price: 497,
-      isAvailable: true,
-      off: null,
-      quantity: 0,
-      images: [
-        'assets/images/deditosdequeso2.jpg',
-        'assets/images/deditosdequeso.jpg',
-      ],
-      isFavorite: false,
-      rating: 3,
-      sizes: ProductSizeType(
-        numerical: [
-          Numerical('x43', true),
-          Numerical('x50', false),
-          Numerical('x55', false),
-        ],
-      ),
-      type: FoodType.salad,
-    ),
-    Product(
-      name: 'Pasa bocas combos',
-      price: 498,
-      isAvailable: true,
-      off: null,
-      quantity: 0,
-      images: [
-        'assets/images/combopasaboca1.jpg',
-        'assets/images/combopasaboca2.jpg',
-        'assets/images/combopasaboca3.jpg',
-      ],
-      isFavorite: false,
-      sizes: ProductSizeType(
-        numerical: [
-          Numerical('1', true),
-          Numerical('2', false),
-          Numerical('3', false),
-        ],
-      ),
-      rating: 2,
-      type: FoodType.salad,
-    ),
-  ];
+  // static List<Product> products = [
+  //   Product(
+  //     name: 'Empanadas',
+  //     price: 460,
+  //     isAvailable: true,
+  //     off: 300,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/empanadasdecarne.jpg',
+  //       'assets/images/empanadasdecarne2.jpg',
+  //       'assets/images/empanadasdecarne3.jpg',
+  //     ],
+  //     isFavorite: true,
+  //     rating: 1,
+  //     type: FoodType.all,
+  //   ),
+  //   Product(
+  //     name: 'Bueñuelos',
+  //     price: 380,
+  //     isAvailable: false,
+  //     off: 220,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/buñuelos2.jpg',
+  //       'assets/images/buñuelos.png',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 4,
+  //     type: FoodType.dessert,
+  //   ),
+  //   Product(
+  //     name: 'Hayaca',
+  //     price: 650,
+  //     isAvailable: true,
+  //     off: null,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/hayaca.jpg',
+  //       'assets/images/hayaca2.jpeg',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 3,
+  //     type: FoodType.salad,
+  //   ),
+  //   Product(
+  //     name: 'Arroz calle',
+  //     price: 229,
+  //     isAvailable: true,
+  //     off: 200,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/arrozcalle.jpg',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 5,
+  //     sizes: ProductSizeType(
+  //       categorical: [
+  //         Categorical(CategoricalType.small, true),
+  //         Categorical(CategoricalType.medium, false),
+  //         Categorical(CategoricalType.large, false),
+  //       ],
+  //     ),
+  //     type: FoodType.salad,
+  //   ),
+  //   Product(
+  //     name: 'Perro pro',
+  //     price: 330,
+  //     isAvailable: true,
+  //     off: null,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/perropro.jpg',
+  //       'assets/images/perropro2.jpg',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 4,
+  //     sizes: ProductSizeType(
+  //       numerical: [
+  //         Numerical('x2', true),
+  //         Numerical('x4', false),
+  //       ],
+  //     ),
+  //     type: FoodType.burger,
+  //   ),
+  //   Product(
+  //     name: 'Salchipapa',
+  //     price: 230,
+  //     isAvailable: true,
+  //     off: null,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/salchipapa.jpg',
+  //       'assets/images/salchipapa2.jpeg',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 2,
+  //     type: FoodType.all,
+  //   ),
+  //   Product(
+  //     name: 'Deditos de queso',
+  //     price: 497,
+  //     isAvailable: true,
+  //     off: null,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/deditosdequeso2.jpg',
+  //       'assets/images/deditosdequeso.jpg',
+  //     ],
+  //     isFavorite: false,
+  //     rating: 3,
+  //     sizes: ProductSizeType(
+  //       numerical: [
+  //         Numerical('x43', true),
+  //         Numerical('x50', false),
+  //         Numerical('x55', false),
+  //       ],
+  //     ),
+  //     type: FoodType.salad,
+  //   ),
+  //   Product(
+  //     name: 'Pasa bocas combos',
+  //     price: 498,
+  //     isAvailable: true,
+  //     off: null,
+  //     quantity: 0,
+  //     images: [
+  //       'assets/images/combopasaboca1.jpg',
+  //       'assets/images/combopasaboca2.jpg',
+  //       'assets/images/combopasaboca3.jpg',
+  //     ],
+  //     isFavorite: false,
+  //     sizes: ProductSizeType(
+  //       numerical: [
+  //         Numerical('1', true),
+  //         Numerical('2', false),
+  //         Numerical('3', false),
+  //       ],
+  //     ),
+  //     rating: 2,
+  //     type: FoodType.salad,
+  //   ),
+  // ];
 
   static List<ProductCategory> categories = [
     ProductCategory(

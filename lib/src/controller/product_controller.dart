@@ -7,11 +7,29 @@ import 'package:fritofacil/src/model/product_category.dart';
 import 'package:fritofacil/src/model/product_size_type.dart';
 
 class ProductController extends GetxController {
-  List<Product> allProducts = AppData.products;
-  RxList<Product> filteredProducts = AppData.products.obs;
+  List<Product> allProducts = [];
+  RxList<Product> filteredProducts = <Product>[].obs;
   RxList<Product> cartProducts = <Product>[].obs;
   RxList<ProductCategory> categories = AppData.categories.obs;
   RxInt totalPrice = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadProducts();
+  }
+
+  Future<void> loadProducts() async {
+    List<Product> loadedProducts = await AppData.loadProductsFromFirebase();
+    allProducts = loadedProducts;
+    filteredProducts.assignAll(allProducts);
+    update();
+  }
+  // List<Product> allProducts = AppData.products;
+  // RxList<Product> filteredProducts = AppData.products.obs;
+  // RxList<Product> cartProducts = <Product>[].obs;
+  // RxList<ProductCategory> categories = AppData.categories.obs;
+  // RxInt totalPrice = 0.obs;
 
   void filterItemsByCategory(int index) {
     for (ProductCategory element in categories) {

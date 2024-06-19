@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fritofacil/core/extensions.dart';
 import 'package:fritofacil/src/controller/product_controller.dart';
-import 'package:fritofacil/src/model/product.dart';
 import 'package:fritofacil/src/feed/animation/animated_switcher_wrapper.dart';
 import 'package:fritofacil/src/feed/widget/empty_cart.dart';
+import 'package:fritofacil/src/model/product.dart';
 import 'package:get/get.dart';
 
 final ProductController controller = Get.put(ProductController());
@@ -51,11 +51,16 @@ class CartScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Image.asset(
-                          product.images[0],
+                        child: Image.network(
+                          product.imageUrl,
                           width: 100,
                           height: 90,
                         ),
+                        //child: Image.asset(
+                        //  product.images[0],
+                        //  width: 100,
+                        //  height: 90,
+                        //),
                       ),
                     ),
                   ),

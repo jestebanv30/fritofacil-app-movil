@@ -36,9 +36,30 @@ class ProductDetailScreen extends StatelessWidget {
           bottomLeft: Radius.circular(200),
         ),
       ),
-      child: CarouselSlider(items: product.images),
+      child: Image.network(
+        product.imageUrl,
+        fit: BoxFit.cover, // Ajusta la imagen al tamaño del contenedor
+      ),
     );
   }
+
+  // Widget productPageView(double width, double height) {
+  //   return Container(
+  //     height: height * 0.42,
+  //     width: width,
+  //     decoration: const BoxDecoration(
+  //       color: Color(0xFFE5E6E8),
+  //       borderRadius: BorderRadius.only(
+  //         bottomRight: Radius.circular(200),
+  //         bottomLeft: Radius.circular(200),
+  //       ),
+  //     ),
+  //     Image.network(
+  //       product.imageUrl,
+  //       fit: BoxFit.cover, // Ajusta la imagen al tamaño del contenedor
+  //     ),
+  //   );
+  // }
 
   Widget _ratingBar(BuildContext context) {
     return Wrap(

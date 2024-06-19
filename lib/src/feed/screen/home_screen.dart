@@ -1,4 +1,4 @@
-// ignore_for_file: use_super_parameters
+// ignore_for_file: use_super_parameters, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:fritofacil/core/app_data.dart';
@@ -6,6 +6,7 @@ import 'package:fritofacil/domain/controller/controluser.dart';
 import 'package:fritofacil/src/feed/animation/page_transition_switcher_wrapper.dart';
 import 'package:fritofacil/src/feed/screen/cart_screen.dart';
 import 'package:fritofacil/src/feed/screen/favorite_screen.dart';
+import 'package:fritofacil/src/feed/screen/productUpload.dart';
 import 'package:fritofacil/src/feed/screen/product_list_screen.dart';
 import 'package:fritofacil/src/feed/screen/profile_screen.dart';
 import 'package:get/get.dart';
@@ -37,6 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(
             actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ProductUpload(); //ProductUpload();
+                  }));
+                },
+                icon: const Icon(Icons.add),
+              ),
               IconButton(
                 onPressed: () {
                   // Lógica para cerrar sesión usando el controlador

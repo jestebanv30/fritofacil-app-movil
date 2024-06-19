@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fritofacil/src/model/product.dart';
 import 'package:fritofacil/src/feed/animation/open_container_wrapper.dart';
+import 'package:fritofacil/src/model/product.dart';
 
 class ProductGridView extends StatelessWidget {
   const ProductGridView({
@@ -57,9 +57,23 @@ class ProductGridView extends StatelessWidget {
         color: const Color(0xFFE5E6E8),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Image.asset(product.images[0], scale: 3),
+      child: Image.network(
+        product.imageUrl,
+        scale: 3,
+      ),
     );
   }
+
+  // Widget _gridItemBody(Product product) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(15),
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xFFE5E6E8),
+  //       borderRadius: BorderRadius.circular(20),
+  //     ),
+  //     child: Image.asset(product.images[0], scale: 3),
+  //   );
+  // }
 
   Widget _gridItemFooter(Product product, BuildContext context) {
     return Padding(

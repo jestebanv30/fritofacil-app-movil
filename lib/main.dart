@@ -10,10 +10,12 @@ void main() async {
   if (GetPlatform.isAndroid) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: "AIzaSyCJpheybYLSug6vJC5BleOns-IkO9-Gc0Q",
-          appId: "1:77606591973:android:a1a19d7aa4ce3e89b2630c",
-          messagingSenderId: "77606591973",
-          projectId: "fritofacilproject"),
+        apiKey: "AIzaSyCJpheybYLSug6vJC5BleOns-IkO9-Gc0Q",
+        appId: "1:77606591973:android:a1a19d7aa4ce3e89b2630c",
+        messagingSenderId: "77606591973",
+        projectId: "fritofacilproject",
+        storageBucket: "fritofacilproject.appspot.com",
+      ),
     );
   } else {
     await Firebase.initializeApp();
