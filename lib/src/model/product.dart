@@ -1,4 +1,3 @@
-import 'package:fritofacil/core/app_data.dart';
 import 'package:fritofacil/src/model/product_size_type.dart';
 
 enum FoodType { all, pizza, burger, sushi, salad, dessert }

@@ -4,7 +4,6 @@ import 'package:fritofacil/core/app_color.dart';
 import 'package:fritofacil/src/model/product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fritofacil/src/feed/widget/carousel_slider.dart';
 import 'package:fritofacil/src/controller/product_controller.dart';
 
 final ProductController controller = Get.put(ProductController());
